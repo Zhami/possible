@@ -1,0 +1,37 @@
+{
+  "name": "possible",
+  "version": "0.1.0",
+  "title": "Possible",
+  "description": "A monad-like object that may possibly have a value, or possibly some sort or error.",
+  "keywords": [
+    "monad",
+    "error"
+  ],
+  "main": "./index.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "homepage": "https://github.com/zhami/possible",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zhami/possible.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhami/possible/issues"
+  },
+  "licenses": "MIT",
+  "author": {
+    "name": "Stuart Malin",
+    "url": "https://github.com/zhami",
+    "email": "stuart@EnvisixLabs.com"
+  },
+   "scripts": {},
+    "maintainers": [
+    {
+      "name": "Stuart Malin",
+      "email": "stuart@EnvisixLabs.com"
+    }
+  ],
+  "directories": {},
+  "dependencies": {}
+}
