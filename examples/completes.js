@@ -12,7 +12,7 @@ var Possible = require('..').Possible;
 
 function test (x, cb) {
 	function async (x, cb) {
-		cb && cb(null, 'test invoked with x = ' + x);
+		cb && cb(null, 'test invoked with x = ', x);
 	}
 
 	setImmediate(async.bind(this, x, cb));
@@ -20,16 +20,10 @@ function test (x, cb) {
 
 var p = new Possible(test);
 
-p.on('complete', function () {
-	var args = new Array(arguments.length);
-	var i;
-
-	for (i = 0; i < args.length; ++i) {
-		args[i] = arguments[i];
-    }
-
+p.on('complete', function (args, execution) {
 	console.log('main: on: complete:', args);
+	console.log('Invoked Args:', execution.getInvokedArgs());
 });
 
-p.go(3);
+p.execute(3);
 

@@ -1,6 +1,6 @@
 {
   "name": "possible",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "Possible",
   "description": "A monad-like object that may possibly have a value, an error, timeout, or a captured throw.",
   "keywords": [

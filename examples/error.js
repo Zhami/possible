@@ -20,9 +20,10 @@ function test (x, cb) {
 
 var p = new Possible(test);
 
-p.on('error', function (err) {
+p.on('error', function (err, execution) {
 	console.log('main: on: error:', err);
+	console.log('Invoked Args:', execution.getInvokedArgs());
 });
 
-p.go(3);
+p.execute(3);
 

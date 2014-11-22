@@ -16,9 +16,10 @@ function test (x, cb) {
 
 var p = new Possible(test);
 
-p.on('threw', function (e) {
+p.on('threw', function (e, execution) {
 	console.log('main: on: threw:', e);
+	console.log('Invoked Args:', execution.getInvokedArgs());
 });
 
-p.go(3);
+p.execute(3);
 

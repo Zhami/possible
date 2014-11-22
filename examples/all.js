@@ -12,10 +12,14 @@ var Possible = require('..').Possible;
 
 function test (action, x, cb) {
 	function async (x, cb) {
-		cb && cb(null, 'test invoked with x = ' + x);
+		cb && cb(null, 'test invoked with x = ', x);
 	}
-	function error (x, cb) {
-		cb && cb('test error: ' + x);
+	function error (cb) {
+		cb && cb(new Error('test error!'));
+	}
+
+	if (!cb) {
+		cb = x;
 	}
 
 	switch (action) {
@@ -26,7 +30,7 @@ function test (action, x, cb) {
 		throw 'Boom!';
 		break;
 	default:
-		setImmediate(error.bind(this, x, cb));	
+		setImmediate(error.bind(this, cb));	
 	}
 
 }
@@ -45,7 +49,7 @@ p.on('threw', function (e) {
 	console.log('main: on: threw:', e);
 });
 
-p.go('complete', Math.random());
-p.go('error');
-p.go('throw');
+p.execute(['complete', Math.random()]);
+p.execute('error');
+p.execute('throw');
 
