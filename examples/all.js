@@ -29,6 +29,9 @@ function test (action, x, cb) {
 	case 'throw':
 		throw 'Boom!';
 		break;
+	case 'timeout':
+		setTimeout(async.bind(this, x, cb), x);
+		break;	
 	default:
 		setImmediate(error.bind(this, cb));	
 	}
@@ -36,6 +39,10 @@ function test (action, x, cb) {
 }
 
 var p = new Possible(test);
+
+var opts = {
+	timeoutMS	: 1000
+}
 
 p.on('complete', function (args) {
 	console.log('main: on: complete:', args);
@@ -45,11 +52,12 @@ p.on('error', function (err) {
 	console.log('main: on: error:', err);
 });
 
-p.on('threw', function (e) {
-	console.log('main: on: threw:', e);
+p.on('timeout', function (elapsed) {
+	console.log('main: on: timeout: elapsed:', elapsed);
 });
 
 p.execute(['complete', Math.random()]);
 p.execute('error');
 p.execute('throw');
+p.execute(['timeout', 1100], null, opts);
 
