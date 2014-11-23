@@ -12,6 +12,7 @@ var	http = require('http');
 
 var Possible = require('..').Possible;
 
+
 function test (action, x, cb) {
 	function async (x, cb) {
 		cb && cb(null, x);
@@ -37,7 +38,9 @@ function test (action, x, cb) {
 
 }
 
+
 var p = new Possible(test);
+
 
 p.on('complete', function (args, exec) {
 	var context = exec.getContext();
@@ -63,22 +66,25 @@ p.on('threw', function (e, exec) {
 	res.end('Server code threw: ' + e + '\n');	
 });
 
-http.createServer(function (req, res) {
+function handleConnection (req, res) {
 	var argsToApply;
 	var context = {
 		req		: req
 		, res	: res
 	};
+
 	var x = Math.random();
-	if (x < .25) {
-		argsToApply = 'throw';
+	if (x < .5) {
+		argsToApply = ['wait', x * 10000];
 	} else if (x > .75) {
 		argsToApply = 'error';
 	} else {
-		argsToApply = ['wait', x * 10000];
+		argsToApply = 'throw';
 	}
 
 	p.execute(argsToApply, context);
-}).listen(1337, '127.0.0.1');
+}
+
+http.createServer(handleConnection).listen(1337, '127.0.0.1');
 
 console.log('Server running at http://127.0.0.1:1337/');
