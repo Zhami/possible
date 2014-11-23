@@ -66,11 +66,22 @@ p.on('threw', function (e, exec) {
 	res.end('Server code threw: ' + e + '\n');	
 });
 
+p.on('timeout', function (elapsed, exec) {
+	var context = exec.getContext();
+	var res = context.res;
+
+	res.writeHead(400, {'Content-Type': 'text/plain'});
+	res.end('Server code timeout after: ' + elapsed + 'ms\n');	
+});
+
 function handleConnection (req, res) {
 	var argsToApply;
 	var context = {
 		req		: req
 		, res	: res
+	};
+	var opts = {
+		timeoutMS : 3500
 	};
 
 	var x = Math.random();
@@ -82,7 +93,7 @@ function handleConnection (req, res) {
 		argsToApply = 'throw';
 	}
 
-	p.execute(argsToApply, context);
+	p.execute(argsToApply, context, opts);
 }
 
 http.createServer(handleConnection).listen(1337, '127.0.0.1');
